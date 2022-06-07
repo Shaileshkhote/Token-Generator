@@ -6,9 +6,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.4",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "bignumber.js": "^9.0.2",
+    "ethers": "^5.6.8",
     "next": "latest",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "web3": "^1.7.3"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
