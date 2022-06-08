@@ -1,7 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function MyModal({isOpen, setIsOpen,tokenAddress}) {
+
+export default function MyModal({ isOpen, setIsOpen, tokenAddress, symbol, message,isMetamask}) {
   function closeModal() {
     setIsOpen(false)
   }
@@ -10,10 +11,30 @@ export default function MyModal({isOpen, setIsOpen,tokenAddress}) {
     setIsOpen(true)
   }
 
+
+  async function handleTokenAddition() {
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20', // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: symbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: 18, // The number of decimals in the token
+            image: '',
+          },
+        },
+      })
+    } catch (e) {
+      console.log('tnx fail!')
+      console.log(e)
+    }
+  }
+
   return (
     <>
-  
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -44,12 +65,21 @@ export default function MyModal({isOpen, setIsOpen,tokenAddress}) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Payment successful
+                    Transaction successful
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-Token Created Successfully At {tokenAddress}
+                      {message} {tokenAddress}
                     </p>
+                   {tokenAddress&&isMetamask?<button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={handleTokenAddition}
+                    >
+                          Add To Metamsk
+                    </button>:''
+
+                   } 
                   </div>
 
                   <div className="mt-4">
@@ -60,7 +90,6 @@ Token Created Successfully At {tokenAddress}
                     >
                       Got it, thanks!
                     </button>
-                    
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -68,7 +97,6 @@ Token Created Successfully At {tokenAddress}
           </div>
         </Dialog>
       </Transition>
-
     </>
   )
 }
