@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import { connectors } from "../utils/connectors";
 import Link from 'next/link';
-import Home from '../pages/home';
+import Home from '../pages/Home';
 import { MenuIcon } from '@heroicons/react/solid'
 
 export default function Header() {
