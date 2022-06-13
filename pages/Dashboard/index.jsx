@@ -7,6 +7,7 @@ import Web3 from 'web3'
 import { ethers } from 'ethers'
 import BigNumber from 'bignumber.js'
 import factoryABI from '../../constants/abi/factory.json'
+import { Web3ReactProvider } from '@web3-react/core'
 
 const Dashboard = () => {
   const contractAddress = '0xF76ffd184421aB715eB09aF543c8f73Df5fE38A1'
@@ -20,6 +21,8 @@ const Dashboard = () => {
     factoryABI,
     contractAddress,
   )
+
+  
 
   useEffect(() => {
     async function fetchTokensCreated() {
@@ -59,16 +62,18 @@ const Dashboard = () => {
   return (
     <div className="bg-gray-700">
       <Header />
+      <div className='flex justify-evenly flex-wrap w-full'>
 
       {tokenAddresses.map((value) => {
           console.log({value})
         return (
-        <div className="w-full">
+
         <DashboardComp tokenAddress={value} />
-        </div>
+
         )
 
       })}
+      </div>
     </div>
   )
 }

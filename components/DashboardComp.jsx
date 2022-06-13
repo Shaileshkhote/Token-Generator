@@ -48,10 +48,7 @@ export default function DashboardComp({ tokenAddress }) {
 
 
   return (
-    <div className="justify-center">
-      <section className="bg-coolGray-50 py-4 flex-row">
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap -m-3">
+          <div className="w-auto flex flex-wrap -m-3">
             <div className="w-full md:w-1/2 xl:w-1/4 p-3">
               <div className="bg-white border border-coolGray-100 shadow-dashboard rounded-md">
                 <div className="flex flex-col justify-center items-center px-4 pt-8 pb-6 border-b border-coolGray-100">
@@ -192,8 +189,6 @@ export default function DashboardComp({ tokenAddress }) {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+  
   )
 }
