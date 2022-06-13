@@ -1,10 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState, useEffect } from 'react'
 import Web3 from 'web3'
-import TokenABI from '../constants/abi/ERC20.json'
+import TokenABI from '../../constants/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import MyModal from '../components/Modal'
+import MyModal from './MyModal'
 
 export default function MintModal({
   isOpen,

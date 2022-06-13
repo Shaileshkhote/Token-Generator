@@ -3,8 +3,12 @@ import Web3 from 'web3'
 import factoryABI from '../constants/abi/factory.json'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import MyModal from './Modal'
+import MyModal from './modals/MyModal'
 import { useForm } from 'react-hook-form'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 export default function Creator() {
   const contractAddress = '0xF76ffd184421aB715eB09aF543c8f73Df5fE38A1'
   const web3 = new Web3('https://liberty10.shardeum.org')
@@ -37,6 +41,8 @@ export default function Creator() {
   const handleCreateToken = async (data) => {
     console.log({data})
     setIsSubmitting(true)
+try{
+
     const accounts = await window.ethereum.request({
       method: 'eth_requestAccounts',
     })
@@ -51,12 +57,15 @@ export default function Creator() {
     )
 
     const factoryContractWithSigner = factoryContract.connect(signer)
+    
+    
     const tx = await factoryContractWithSigner.createToken(
       data.tokenName,
       data.tokenSymbol,
       ethers.utils.parseEther(data.maxSupply),
       { value: ethers.utils.parseEther('0.1') },
     )
+    toast.success("Tnx submitted to blockchain");
     console.log('Receipt', tx)
     const receipt = await tx.wait()
     console.log(receipt)
@@ -66,21 +75,32 @@ export default function Creator() {
       console.log(status)
       setIsSubmitting(false)
     } else {
+      toast.error("Tnx failed");
       setIsSubmitting(false)
       setStatus(false)
     }
   }
+  catch(error){
+    console.log({error})
+    if(error.code === 4001){
+      setIsSubmitting(false)
+      setStatus(false)
+      toast.error("Tnx Rejected By User");
+    }
+  }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center">
+       <ToastContainer />
       <div className="min-h-1/2 bg-gray-900  border border-gray-900 rounded-2xl">
-        <div className="mx-4 sm:mx-24 md:mx-34 lg:mx-48 mx-auto  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
+        <div className=" lg:mx-24  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
           <h1 className="text-white text-2xl">Create New Token</h1>
 
-          <form onSubmit={handleSubmit(handleCreateToken)}>
+          <form className="flex flex-col p-3 w-96" onSubmit={handleSubmit(handleCreateToken)}>
             <input
               onChange={(e) => handleInputName(e)}
-              className="w-full p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700"
+              className="my-2 p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700"
               placeholder="Name Of Token"
               
               type="text"
@@ -90,7 +110,7 @@ export default function Creator() {
             />
             {/* {errors.tokenName && <p>Please Check Token Name</p>} */}
             <input
-              className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 "
+              className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
               onChange={(e) => handleInputSymbol(e)}
               placeholder="Token Symbol"
               type="text"
@@ -100,7 +120,7 @@ export default function Creator() {
             />
             {/* {errors.tokenName && <p>Please Check Token Symbol</p>} */}
             <input
-              className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 "
+              className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
               onChange={(e) => handleInputMaxSupply(e)}
               placeholder="Token Max Supply"
               type="number"
@@ -110,7 +130,7 @@ export default function Creator() {
             />
             {/* {errors.tokenName && <p>Please Check Address</p>} */}
             <input
-              className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 "
+              className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
               placeholder="Decimals 18"
               text="18"
               type="number"
@@ -121,7 +141,7 @@ export default function Creator() {
 
             {isSubmitting ? (
               <button
-                className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                className="my-2 p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
                 name="Create Token"
                 disabled="true"
@@ -146,7 +166,7 @@ export default function Creator() {
               </button>
             ) : (
               <button
-                className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                className="my-2 p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
                 name="Create Token"
                 id=""

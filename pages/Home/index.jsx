@@ -4,6 +4,7 @@ import Header from '../../components/Header'
 import Creator from '../../components/Creator'
 import { useEffect, useState} from 'react'
 
+
 const Home = () => {
 
   const [account, setAccount] = useState()
@@ -24,7 +25,7 @@ const Home = () => {
   
   return (
     <div className="bg-gray-700">
-      <Header account={account}/>
+      <Header />
       <Creator/>
   </div>
   )

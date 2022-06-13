@@ -3,7 +3,9 @@ import Web3 from 'web3'
 import ERC20ABI from '../constants/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import MintModal from './MintModal'
+import MintModal from './modals/MintModal'
+import { useWeb3React } from '@web3-react/core'
+
 export default function DashboardComp({ tokenAddress }) {
   const web3 = new Web3('https://liberty10.shardeum.org')
   const contractAddress = tokenAddress
@@ -14,6 +16,7 @@ export default function DashboardComp({ tokenAddress }) {
   const [tokenTotalSupply, setTokenTotalSupply] = useState()
   const [isMint, setIsMint] = useState(false)
   const [isChangeMinter, setIsChangeMinter] = useState(false)
+
 
   const ERC20TokenContract = new web3.eth.Contract(ERC20ABI, contractAddress)
 
@@ -48,10 +51,10 @@ export default function DashboardComp({ tokenAddress }) {
 
 
   return (
-          <div className="w-auto flex flex-wrap -m-3">
-            <div className="w-full md:w-1/2 xl:w-1/4 p-3">
-              <div className="bg-white border border-coolGray-100 shadow-dashboard rounded-md">
-                <div className="flex flex-col justify-center items-center px-4 pt-8 pb-6 border-b border-coolGray-100">
+    <div className="w-auto p-5 flex flex-wrap ">
+         <div className="sm:mt-8  lg:mt-5">
+           <div className="bg-white border border-coolGray-100 shadow-dashboard rounded-md">
+             <div className="flex flex-col justify-center items-center px-4 pt-8 pb-6 border-b border-coolGray-100">
                   <svg
                     version="1.0"
                     xmlns="http://www.w3.org/2000/svg"

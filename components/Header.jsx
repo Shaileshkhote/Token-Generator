@@ -1,29 +1,26 @@
 import { React, useState, useEffect} from 'react'
-import Web3 from 'web3'
-import BigNumber from 'bignumber.js'
-import useMetaMask from '../hooks/metamask'
 import { ethers } from 'ethers'
-export default function Header({ account }) {
-  const [connectedethers, setConnectedEthers] = useState(false)
-  const [walletAddress, setWalletAddress] = useState('Connect Wallet')
+import { useWeb3React } from '@web3-react/core'
+import { connectors } from "../utils/connectors";
+import Link from 'next/link';
 
+export default function Header() {
+  const { chainId, account, activate, active,library } = useWeb3React()
+  const [walletAddress, setWalletAddress] = useState('Connect Wallet')
   const [balance, setBalance] = useState('0')
 
   // Button handler button for handling a
   // request event for metamask
   const connectWallet = () => {
-    // Asking if metamask is already present or not
-    if (window.ethereum) {
-      // res[0] for fetching a first wallet
-      window.ethereum
-        .request({ method: 'eth_requestAccounts' })
-        .then((res) => accountChangeHandler(res[0]))
-    } else {
-      alert('install metamask extension!!')
-    }
+
+    console.log({chainId})
+
+    activate(connectors.injected)
+
   }
 
   useEffect(() => {
+
     if(account){
       getbalance(account)
     }
@@ -135,9 +132,10 @@ export default function Header({ account }) {
               </button>
             )}
 
+
             <button
               type="button"
-              class="text-gray-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2"
+              class="text-gray-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800  dark:text-white dark:hover:bg-gray-700 mr-2 mb-2"
             >
               <svg
                 version="1.0"
@@ -215,34 +213,34 @@ export default function Header({ account }) {
           >
             <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
               <li>
-                <a
+                <Link
                   href="/Home"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-100 md:p-0 dark:text-white"
                   aria-current="page"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                <Link
+                  href="/Home"
+                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-white md:dark:hover:bg-transparent "
                 >
                   Create Token
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/Dashboard"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-white md:dark:hover:bg-transparent "
                 >
                   Dashboard
-                </a>
+                </Link>
               </li>
               <li>
                 <a
                   href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 light:hover:text-white md:dark:hover:bg-transparent "
                 >
                   About
                 </a>
