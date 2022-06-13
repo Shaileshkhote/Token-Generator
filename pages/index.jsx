@@ -5,7 +5,7 @@ import Creator from '../components/Creator'
 import { useEffect, useState} from 'react'
 
 
-const home = () => {
+const index = () => {
 
   const [account, setAccount] = useState()
 
@@ -32,4 +32,4 @@ const home = () => {
   )
 }
 
-export default home
+export default index
