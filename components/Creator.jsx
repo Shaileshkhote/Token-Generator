@@ -91,9 +91,10 @@ try{
   }
 
   return (
+    <div className='flex flex-col'>
     <div className="flex min-h-screen items-center justify-center">
        <ToastContainer />
-      <div className="min-h-1/2 bg-gray-900  border border-gray-900 rounded-2xl">
+      <div className="min-h-1/2 bg-gray-900 mt-36  border border-gray-900 rounded-2xl">
         <div className=" lg:mx-24  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
           <h1 className="text-white text-2xl">Create New Token</h1>
 
@@ -108,7 +109,9 @@ try{
               id=""
               {...register("tokenName", { required: true, maxLength: 10 })}
             />
-            {/* {errors.tokenName && <p>Please Check Token Name</p>} */}
+            <p className='text-sm text-red-500'>
+            {errors.tokenName && <p className='text-sm text-red-500'>Please Check Token Name</p>}
+            </p>
             <input
               className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
               onChange={(e) => handleInputSymbol(e)}
@@ -118,7 +121,8 @@ try{
               id=""
               {...register("tokenSymbol", { required: true, maxLength: 4 })}
             />
-            {/* {errors.tokenName && <p>Please Check Token Symbol</p>} */}
+            
+            {errors.tokenName && <p className='text-sm text-red-500'>Please Check Token Symbol</p>}
             <input
               className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
               onChange={(e) => handleInputMaxSupply(e)}
@@ -128,9 +132,9 @@ try{
               id=""
               {...register("maxSupply", { required: true })}
             />
-            {/* {errors.tokenName && <p>Please Check Address</p>} */}
+            {errors.tokenName && <p className='text-sm text-red-500'>Please Check Address</p>}
             <input
-              className="my-2 p-2 bg-gray-900 rounded-md border border-gray-700 "
+              className="my-2 p-2 bg-gray-900 rounded-md  "
               placeholder="Decimals 18"
               text="18"
               type="number"
@@ -196,6 +200,8 @@ try{
           </p>
         </div>
       </div>
+ 
+    </div>
     </div>
   )
 }

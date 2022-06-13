@@ -9,7 +9,7 @@ import { useWeb3React } from '@web3-react/core'
 import { toast,ToastContainer } from 'react-toastify'
 
 
-const Dashboard = () => {
+const dashboard = () => {
   const contractAddress = '0xF76ffd184421aB715eB09aF543c8f73Df5fE38A1'
   const web3 = new Web3('https://liberty10.shardeum.org')
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
 
   return (
-    <div className="bg-gray-700">
+    <div className="h-screen bg-gray-700">
        {/* <ToastContainer /> */}
       <Header />
       <div className='flex justify-evenly flex-wrap w-full'>
@@ -74,4 +74,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default dashboard

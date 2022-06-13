@@ -3,11 +3,28 @@ import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import { connectors } from "../utils/connectors";
 import Link from 'next/link';
+import Home from '../pages/home';
+import { MenuIcon } from '@heroicons/react/solid'
 
 export default function Header() {
   const { chainId, account, activate, active,library } = useWeb3React()
   const [walletAddress, setWalletAddress] = useState('Connect Wallet')
   const [balance, setBalance] = useState('0')
+  let [open,setOpen]=useState(false);
+
+  let Links =[
+    {name:"Home",link:"/home"},
+    {name:"Create Token",link:"/home"},
+    {name:"Dashboard",link:"/dashboard"},
+
+  ];
+
+
+  const MenuItems=[
+    {title:"Home",link:"/home"},
+    {title:"Create Token",link:"/home"},
+    {title:"Dashboard",link:"/dashboard"}
+  ]
 
   // Button handler button for handling a
   // request event for metamask
@@ -20,12 +37,14 @@ export default function Header() {
   }
 
   useEffect(() => {
+    activate(connectors.injected)
 
     if(account){
       getbalance(account)
+   
     }
   
-  })
+  },[account])
   
 
   // getbalance function for getting a balance in
@@ -96,20 +115,35 @@ export default function Header() {
   }
 
   return (
-    <header classNameName="flex flex-col sm:flex-row m-5 justify-between items-center h-auto">
-      <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
-          <a href="#" className="flex items-center">
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Token Generator
-            </span>
-          </a>
+    <div>
+    <div className='shadow-md w-full fixed top-0 left-0'>
+      <div className='md:flex items-center justify-between bg-gray-900 py-4 md:px-10 px-7'>
+      <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
+      text-gray-800'>
+        <img src="/logo.png" className='w-36'/>
+       
+      </div>
+      
+      <div onClick={()=>setOpen(!open)} className='text-3xl absolute right-8 top-6 cursor-pointer md:hidden'>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+  <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+</svg>
+      </div>
 
-          <div className="flex md:order-2">
+      <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-gray-900 md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ':'top-[-490px]'}`}>
+        {
+          Links.map((link)=>(
+            <li key={link.name} className='md:ml-8 text-sm md:my-0 my-7'>
+              <a href={link.link} className='text-gray-200 hover:text-gray-400 duration-500'>{link.name}</a>
+            </li>
+          ))
+        }
+
+          <div classNameName="">
             <button
               onClick={handleAddNetwork}
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm h-10 px-2 py-2 ml-3 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-gray-900 md:ml-12 lg:ml-12 2xl:ml-12  bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4  focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center  items-cente  dark:text-white "
             >
               Add Shardeum Network
             </button>
@@ -118,7 +152,7 @@ export default function Header() {
               disabled={account}
               onClick={connectWallet}
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  h-10 px-2 py-2 ml-3 text-right mr-1 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-gray-900  bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4  focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center  items-cente  dark:text-white "
             >
               {account.substring(0,6)+"..."}
             </button>
@@ -126,22 +160,22 @@ export default function Header() {
               <button
                 onClick={connectWallet}
                 type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  h-10 px-2 py-2 ml-3 text-right mr-1 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
+                className="text-gray-900  bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4  focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center  items-cente  dark:text-white "
+                >
                 Connect Wallet
               </button>
             )}
 
 
-            <button
+            {/* <button
               type="button"
-              class="text-gray-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800  dark:text-white dark:hover:bg-gray-700 mr-2 mb-2"
+              className="text-gray-900  invisible md:visible lg:visible 2xl:visible bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm h-10 ml-3 px-2 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800  dark:text-white dark:hover:bg-gray-700 "
             >
               <svg
                 version="1.0"
                 xmlns="http://www.w3.org/2000/svg"
-                width="30px"
-                height="30px"
+                width="20px"
+                height="20px"
                 viewBox="0 0 1200.000000 1200.000000"
                 preserveAspectRatio="xMidYMid meet"
               >
@@ -171,84 +205,12 @@ export default function Header() {
                 </g>
               </svg>
               {balance}
-            </button>
+            </button> */}
+      </div>
+      </ul>
 
-            <button
-              data-collapse-toggle="mobile-menu-4"
-              type="button"
-              className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="mobile-menu-4"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <svg
-                className="hidden w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div
-            className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
-            id="mobile-menu-4"
-          >
-            <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-              <li>
-                <Link
-                  href="/Home"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-100 md:p-0 dark:text-white"
-                  aria-current="page"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/Home"
-                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-white md:dark:hover:bg-transparent "
-                >
-                  Create Token
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/Dashboard"
-                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-white md:dark:hover:bg-transparent "
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-100 light:hover:text-white md:dark:hover:bg-transparent "
-                >
-                  About
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
+      </div>
+    </div>
+    </div>
   )
 }

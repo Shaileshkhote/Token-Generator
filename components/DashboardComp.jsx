@@ -17,6 +17,8 @@ export default function DashboardComp({ tokenAddress }) {
   const [isMint, setIsMint] = useState(false)
   const [isChangeMinter, setIsChangeMinter] = useState(false)
 
+  let explorerLink = "https://explorer.liberty10.shardeum.org/token/"+tokenAddress
+
 
   const ERC20TokenContract = new web3.eth.Contract(ERC20ABI, contractAddress)
 
@@ -51,7 +53,7 @@ export default function DashboardComp({ tokenAddress }) {
 
 
   return (
-    <div className="w-auto p-5 flex flex-wrap ">
+    <div className="bg-gray-700 mt-36 w-auto p-5 flex flex-wrap ">
          <div className="sm:mt-8  lg:mt-5">
            <div className="bg-white border border-coolGray-100 shadow-dashboard rounded-md">
              <div className="flex flex-col justify-center items-center px-4 pt-8 pb-6 border-b border-coolGray-100">
@@ -183,8 +185,10 @@ export default function DashboardComp({ tokenAddress }) {
                 <div className="flex items-center">
                   <div className="w-full  p-2">
                     <div className="text-center">
-                      <p className="mb-1 text-xs text-coolGray-900 font-semibold">
+                      <p className="mb-1 text-xs text-blue-400 font-semibold">
+                        <a href={explorerLink}>
                         View on Shardeum Explorer
+                        </a>
                       </p>
                     </div>
                   </div>

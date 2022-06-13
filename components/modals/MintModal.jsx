@@ -5,6 +5,8 @@ import TokenABI from '../../constants/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import MyModal from './MyModal'
+import { useForm } from 'react-hook-form'
+
 
 export default function MintModal({
   isOpen,
@@ -16,6 +18,11 @@ export default function MintModal({
   const contractAddress = tokenAddress
   const web3 = new Web3('https://liberty10.shardeum.org')
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
   const [tokensToMint, setTokensToMint] = useState()
   const [minterchange, setMinterchange] = useState()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -53,15 +60,17 @@ export default function MintModal({
     console.log(name)
   }
 
-  function handleClick(){
+  function handleClick(data){
+    console.log(data.mintTokens,)
       if(isChangeMinter){
-          handleMinterChange();
+          handleMinterChange(data);
       }else{
-          handleMint()
+          handleMint(data)
       }
   }
 
-  async function handleMint() {
+  async function handleMint(data) {
+    try{
     setIsSubmitting(true)
     const accounts = await window.ethereum.request({
       method: 'eth_requestAccounts',
@@ -78,7 +87,7 @@ export default function MintModal({
 
     const tokenContractWithSigner = tokenContract.connect(signer)
     const tx = await tokenContractWithSigner.mintTokens(
-      ethers.utils.parseEther(tokensToMint),
+      ethers.utils.parseEther(data.mintTokens),
     )
 
     console.log('Receipt', tx)
@@ -93,8 +102,18 @@ export default function MintModal({
       setStatus(false)
     }
   }
+  catch(error){
+    console.log({error})
+    if(error.code === 4001){
+      setIsSubmitting(false)
+      setStatus(false)
+      toast.error("Tnx Rejected By User");
+    }
+  }
+  }
 
-  async function handleMinterChange() {
+  async function handleMinterChange(data) {
+    try{
     setIsSubmitting(true)
     const accounts = await window.ethereum.request({
       method: 'eth_requestAccounts',
@@ -111,7 +130,7 @@ export default function MintModal({
 
     const tokenContractWithSigner = tokenContract.connect(signer)
     const tx = await tokenContractWithSigner.setMinter(
-      minterchange
+      data.changedMinter
     )
 
     console.log('Receipt', tx)
@@ -125,6 +144,16 @@ export default function MintModal({
       setIsSubmitting(false)
       setStatus(false)
     }
+
+  }
+  catch(error){
+    console.log({error})
+    if(error.code === 4001){
+      setIsSubmitting(false)
+      setStatus(false)
+      toast.error("Tnx Rejected By User");
+    }
+  }
   }
 
   return (
@@ -161,6 +190,7 @@ export default function MintModal({
                   >
                     {buttonText}
                   </Dialog.Title>
+                  <form onSubmit={handleSubmit(handleClick)}>
                   <MyModal
                     isOpen={status}
                     setIsOpen={setStatus}
@@ -170,6 +200,7 @@ export default function MintModal({
                   />
                   {isChangeMinter ? (
                     <div className="mt-2">
+                     
                       <input
                         className="w-full p-2 bg-white rounded-md border border-gray-700 "
                         onChange={(e) => handleInputAddress(e)}
@@ -177,7 +208,10 @@ export default function MintModal({
                         type="text"
                         name="Mint Tokens"
                         id=""
+                        {...register("changedAddress", { required: true })}
+                        
                       />
+                      {errors.mintTokens && <p className='text-sm text-red-500'>Please Address</p>}
                     </div>
                   ) : (
                     <div className="mt-2">
@@ -188,7 +222,9 @@ export default function MintModal({
                         type="number"
                         name="Mint Tokens"
                         id=""
+                        {...register("mintTokens", { required: true })}
                       />
+                      {errors.changedMinter && <p className='text-sm text-red-500'>Please Check Entered Tokens</p>}
                     </div>
                   )}
 
@@ -203,9 +239,8 @@ export default function MintModal({
 
                     {isSubmitting ? (
                       <button
-                        type="button"
+                        type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 mr-3 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={handleClick}
                         disabled="true"
                       >
                         <svg
@@ -227,15 +262,17 @@ export default function MintModal({
                       </button>
                     ) : (
                       <button
-                        type="button"
+                        type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 mr-3 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={handleClick}
+                      
                       >
                         {buttonText}
                       </button>
                     )}
+                    
                   </div>
-                </Dialog.Panel>
+                  </form>
+                  </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
