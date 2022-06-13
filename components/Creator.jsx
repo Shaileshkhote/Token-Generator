@@ -94,8 +94,8 @@ try{
     <div className='flex flex-col'>
     <div className="flex min-h-screen items-center justify-center">
 
-      <div className="min-h-1/2 bg-gray-900 mt-36  border border-gray-900 rounded-2xl">
-        <div className=" lg:mx-24  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
+      <div className="min-h-1/2 bg-gray-900 mt-36  border border-gray-900 rounded-2xl my-24">
+        <div className=" lg:mx-24  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col ">
           <h1 className="text-white text-2xl">Create New Token</h1>
           <ToastContainer />
           <form className="flex flex-col p-3 w-72 lg:w-96 md:w-96 2xl:w-96" onSubmit={handleSubmit(handleCreateToken)}>

@@ -7,6 +7,7 @@ import Web3 from 'web3'
 import factoryABI from '../../constants/abi/factory.json'
 import { useWeb3React } from '@web3-react/core'
 import { toast,ToastContainer } from 'react-toastify'
+import Footer from '../../components/Footer'
 
 
 const dashboard = () => {
@@ -69,7 +70,10 @@ const dashboard = () => {
         )
 
       })}
+
       </div>
+
+      <Footer/>
     </div>
   )
 }

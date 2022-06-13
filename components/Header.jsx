@@ -15,18 +15,13 @@ export default function Header() {
   let [open,setOpen]=useState(false);
 
   let Links =[
-    {name:"Home",link:"/home"},
-    {name:"Create Token",link:"/home"},
-    {name:"Dashboard",link:"/dashboard"},
+    {name:"Home",link:"/Home"},
+    {name:"Create Token",link:"/Home"},
+    {name:"Dashboard",link:"/Dashboard"},
 
   ];
 
 
-  const MenuItems=[
-    {title:"Home",link:"/home"},
-    {title:"Create Token",link:"/home"},
-    {title:"Dashboard",link:"/dashboard"}
-  ]
 
   // Button handler button for handling a
   // request event for metamask
@@ -134,7 +129,7 @@ export default function Header() {
         {
           Links.map((link)=>(
             <li key={link.name} className='md:ml-8 text-sm md:my-0 my-7'>
-              <a href={link.link} className='text-gray-200 hover:text-gray-400 duration-500'>{link.name}</a>
+              <Link href={link.link} className='text-gray-100 hover:text-gray-400 duration-500'><p className='text-gray-100 hover:text-gray-400 duration-500'>{link.name}</p></Link>
             </li>
           ))
         }
