@@ -5,13 +5,14 @@ import DashboardComp from '../../components/DashboardComp'
 import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 import factoryABI from '../../constants/abi/factory.json'
+import factoryAddress from '../../constants/contractAddresses.json'
 import { useWeb3React } from '@web3-react/core'
 import { toast,ToastContainer } from 'react-toastify'
 import Footer from '../../components/Footer'
 
 
 const dashboard = () => {
-  const contractAddress = '0xF76ffd184421aB715eB09aF543c8f73Df5fE38A1'
+  const contractAddress = factoryAddress.tokenFactory
   const web3 = new Web3('https://liberty10.shardeum.org')
 
   const [tokenAddresses, setTokenAddresses] = useState([])
@@ -54,15 +55,13 @@ const dashboard = () => {
     fetchTokensAddress()
   }, [tokensCreated])
 
-
   return (
-    <div className="h-screen bg-gray-700">
+    <div className="lg:h-screen h-full bg-gray-700 bg-fixed">
        {/* <ToastContainer /> */}
       <Header />
-      <div className='flex justify-evenly flex-wrap w-full'>
+      <div className=' mt-16 flex justify-evenly flex-wrap w-full'>
 
       {tokenAddresses.map((value) => {
-          console.log({value})
         return (
 
         <DashboardComp tokenAddress={value} />

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 import factoryABI from '../constants/abi/factory.json'
+import factoryAddress from '../constants/contractAddresses.json'
+
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import MyModal from './modals/MyModal'
@@ -10,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Creator() {
-  const contractAddress = '0xF76ffd184421aB715eB09aF543c8f73Df5fE38A1'
+  const contractAddress = factoryAddress.tokenFactory
   const web3 = new Web3('https://liberty10.shardeum.org')
 
   const {

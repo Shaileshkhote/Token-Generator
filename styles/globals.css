@@ -5,3 +5,9 @@
 @layer components {
 
 }
+
+.footer-bottom{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
